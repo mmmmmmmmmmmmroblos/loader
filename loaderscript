@@ -1,0 +1,14 @@
+-- private hub (beta)
+-- ui lib = LuxWare
+
+local SupportedGames = {
+    "MM2"
+}
+
+local Luxtl = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Luxware-UI-Library/main/Source.lua"))()
+
+if game.PlaceId == 142823291 then
+    print("MM2")
+else
+    print("false")
+end
