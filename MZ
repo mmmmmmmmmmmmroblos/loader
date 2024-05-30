@@ -1,0 +1,54 @@
+-- Michaels Zombies (Lvl 3 Version)
+local Workspace = cloneref(game:GetService("Workspace"))
+local Players = cloneref(game:GetService("Players"))
+local Player = cloneref(Players.LocalPlayer)
+local ZombieFolder = cloneref(Workspace.Ignore.Zombies)
+local RunService = cloneref(game:GetService("RunService"))
+local UserInput = cloneref(game:GetService("UserInputService"))
+local ESPBool = false
+
+
+function AddESP(NPC)
+    local BillBoard = Instance.new("BillboardGui", NPC)
+    BillBoard.Size = UDim2.new(2.5,0,2.5,0)
+    BillBoard.AlwaysOnTop = true
+    BillBoard.Name = "InstanceESP"
+
+    local Text = Instance.new("TextLabel", BillBoard)
+    Text.Text = NPC.Parent.Name
+    Text.TextColor3 = Color3.fromRGB(0,255,0)
+    Text.TextTransparency = 0.25
+    Text.BackgroundTransparency = 1
+    Text.TextScaled = true
+    Text.Size = UDim2.new(1,0,1,0)
+    Text.Font = Enum.Font.Code
+    Text.Name = "Text"
+end
+
+UserInput.InputBegan:Connect(function(Input, IsTyping)
+    if Input.KeyCode == Enum.KeyCode.G and not IsTyping then
+        if ESPBool == false then
+            ESPBool = true
+            print(ESPBool)
+        else
+            ESPBool = false
+            print(ESPBool)
+        end
+    end
+end)
+
+RunService.RenderStepped:Connect(function()
+    for _,v in pairs(ZombieFolder:GetChildren()) do
+        if ESPBool == false then
+            if v:FindFirstChildWhichIsA("Humanoid") and v:FindFirstChild("Head") then
+                if v.Head:FindFirstChild("InstanceESP") then
+                    v.Head:FindFirstChild("InstanceESP"):Destroy()
+                end
+            end
+        else
+            if v:FindFirstChildWhichIsA("Humanoid") and v:FindFirstChild("Head") then
+                AddESP(v.Head)
+            end
+        end
+    end
+end)
